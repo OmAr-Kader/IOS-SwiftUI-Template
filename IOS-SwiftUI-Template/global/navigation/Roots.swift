@@ -9,6 +9,8 @@ extension View {
         switch target {
         case .SPLASH_SCREEN_ROUTE :
             SplashScreen(app: app)
+        case .AUTH_SCREEN_ROUTE:
+            SplashScreen(app: app)
         }
     }
 }
@@ -16,6 +18,7 @@ extension View {
 enum Screen : Hashable {
     
     case SPLASH_SCREEN_ROUTE
+    case AUTH_SCREEN_ROUTE
 }
 
 

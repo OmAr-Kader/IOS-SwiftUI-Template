@@ -3,16 +3,13 @@ import Combine
 protocol PrefRepo {
     
     @BackgroundActor
-    func prefs(invoke: ([Preference]) -> Unit) async
+    func prefs(invoke: @BackgroundActor ([Preference]) async -> Unit) async
     
     @BackgroundActor
-    func prefsBack(invoke: @escaping ([Preference]) -> Unit) async -> AnyCancellable?
+    func prefsRealTime(invoke: @BackgroundActor @escaping ([Preference]) -> Unit) async -> AnyCancellable?
   
     @BackgroundActor
-    func insertPref(_ pref: Preference,_ invoke: @escaping ((Preference?) async -> Unit)) async
-    
-    @BackgroundActor
-    func insertPref(_ prefs: [Preference],_ invoke: @escaping (([Preference]?) -> Unit)) async
+    func updatePref(_ prefs: [Preference],_ invoke: @escaping (([Preference]?) async -> Unit)) async
 
     @BackgroundActor
     func updatePref(

@@ -6,13 +6,18 @@ import Swinject
 //https://github.com/realm/realm-swift
 //https://github.com/Swinject/Swinject
 
+struct Project : ScopeFunc {
+    let realmApi: RealmApi
+    let pref: PreferenceBase
+}
+
 func buildContainer() -> Container {
     let container = Container()
     
     let realmApi = RealmApi(realmApp: App(id: REALM_APP_ID))
     let pro = Project(
         realmApi: realmApi,
-        preference: PreferenceData(repository: PrefRepoImp(realmApi: realmApi))
+        pref: PreferenceBase(repository: PrefRepoImp(realmApi: realmApi))
     )
     let theme = Theme(isDarkMode: UITraitCollection.current.userInterfaceStyle.isDarkMode)
     container.register(RealmApi.self) { _  in

@@ -1,7 +1,5 @@
 import Foundation
 import RealmSwift
-import os
-
 
 let REALM_SUCCESS: Int = 1
 let REALM_FAILED: Int = -1
@@ -25,19 +23,6 @@ var listOfSchemaEmbeddedRealmClass: [ObjectBase.Type] {
     ]
 }
 
-public func log(_ it: String, tag: String = "") {
-    print("==> \(tag) \(it)")
-}
-
-public func logger(_ tag: String,_ it: String) {
-    let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "network")
-    logger.log("==> \(tag) \(it)")
-}
-
-public func loggerError(_ tag: String,_ it: String) {
-    let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "network")
-    logger.log("==> \(tag) \(it)")
-}
 
 extension Realm {
     
@@ -57,12 +42,4 @@ extension Realm {
         }
     }
 
-}
-
-protocol ForData : Identifiable, Decodable, Hashable {
-    
-}
-
-protocol ForSubData : Decodable, Hashable {
-    
 }

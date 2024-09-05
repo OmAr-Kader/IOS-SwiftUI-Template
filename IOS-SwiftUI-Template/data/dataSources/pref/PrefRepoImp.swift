@@ -11,15 +11,15 @@ class PrefRepoImp : PrefRepo {
     }
     
     @BackgroundActor
-    func prefs(invoke: ([Preference]) -> Unit) async {
+    func prefs(invoke: @BackgroundActor ([Preference]) async -> Unit) async {
         let list: [Preference] = await realmApi.local()?.objects(Preference.self).map { it in
             it
         } ?? []
-        invoke(list)
+        await invoke(list)
     }
     
     @BackgroundActor
-    func prefsBack(invoke: @escaping ([Preference]) -> Unit) async -> AnyCancellable? {
+    func prefsRealTime(invoke: @BackgroundActor @escaping ([Preference]) -> Unit) async -> AnyCancellable? {
         let realm = await realmApi.local()
         guard let realm else {
             return nil
@@ -55,22 +55,31 @@ class PrefRepoImp : PrefRepo {
     }
     
     @BackgroundActor
-    func insertPref(_ prefs: [Preference],_ invoke: @escaping (([Preference]?) -> Unit)) async {
+    func updatePref(_ prefs: [Preference],_ invoke:  @escaping (([Preference]?) async -> Unit)) async {
         do {
             let realm = await realmApi.local()
             guard let realm else {
-                invoke(nil)
+                await invoke(nil)
                 return
             }
-            try await realm.asyncWrite {
-                prefs.forEach { pref in
-                    realm.add(pref, update: .all)
+            var newPrefs: [Preference] = []
+            for pref in prefs {
+                let op = realm.objects(Preference.self).filter("keyString == $0", pref.keyString).first
+                if let op = op {
+                    try await realm.asyncWrite {
+                        op.value = pref.value
+                    }
+                } else {
+                    try await realm.asyncWrite {
+                        realm.add(pref, update: .all)
+                    }
                 }
+                newPrefs.append(pref)
             }
-            invoke(prefs)
+            await invoke(newPrefs)
         } catch let e {
             print(e.localizedDescription)
-            invoke(nil)
+            await invoke(nil)
         }
     }
     
@@ -85,8 +94,7 @@ class PrefRepoImp : PrefRepo {
             await invoke(nil)
             return
         }
-        let op = realm.object(ofType: Preference.self, forPrimaryKey: pref._id)
-        guard let op else {
+        guard let op = realm.objects(Preference.self).filter("keyString == $0", pref.keyString).first else {
             await insertPref(pref, invoke)
             return
         }
@@ -107,7 +115,7 @@ class PrefRepoImp : PrefRepo {
             guard let realm else {
                 return REALM_FAILED
             }
-            let op = realm.objects(Preference.self).filter("ketString == $0", key).first
+            let op = realm.objects(Preference.self).filter("keyString == $0", key).first
             if (op == nil) {
                 return REALM_FAILED
             }

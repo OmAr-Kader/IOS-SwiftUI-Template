@@ -1,5 +1,6 @@
 import Foundation
 //import SwiftDate
+import os
 
 typealias Unit = Void
 
@@ -230,3 +231,25 @@ extension Float64 {
 
 }
 
+
+public func log(_ it: String, tag: String = "") {
+    print("==> \(tag) \(it)")
+}
+
+public func logger(_ tag: String,_ it: String) {
+    let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "network")
+    logger.log("==> \(tag) \(it)")
+}
+
+public func loggerError(_ tag: String,_ it: String) {
+    let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "network")
+    logger.log("==> \(tag) \(it)")
+}
+
+protocol ForData : Identifiable, Decodable, Hashable {
+    
+}
+
+protocol ForSubData : Decodable, Hashable {
+    
+}
