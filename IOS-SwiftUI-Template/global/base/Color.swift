@@ -1,5 +1,9 @@
 import SwiftUI
 
+var primaryColor: Color {
+    Color(red: 109 / 255, green: 157 / 255, blue: 241 / 255)
+}
+
 extension UIUserInterfaceStyle {
     var isDarkMode: Bool {
         if self == .light {
@@ -42,11 +46,15 @@ extension Color {
     }
     
     var margeWithPrimary: Color {
-        return (toUic * 0.85 + Purple40.toUic * 0.15).toC
+        return (toUic * 0.85 + primaryColor.toUic * 0.15).toC
     }
 
     func margeWithPrimary(_ f: Double = 0.15) -> Color {
-        return (toUic * (1.0 - f) + Purple40.toUic * f).toC
+        return (toUic * (1.0 - f) + primaryColor.toUic * f).toC
+    }
+    
+    func margeColors(_ color: Color, _ f: Double) -> Color {
+        return (toUic * (1.0 - f) + color.toUic * f).toC
     }
     
     static func random(randomOpacity: Bool = false) -> Color {
@@ -58,6 +66,7 @@ extension Color {
         )
     }
 }
+
 
 func addColor(_ color1: UIColor, with color2: UIColor) -> UIColor {
     var (r1, g1, b1, a1) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
@@ -87,40 +96,10 @@ func rateColor(rate: Double) -> Color {
     return Color(UIColor(.yellow) * 0.5 + .darkGray * 0.5)
 }
 
-var Purple80: Color {
-    return Color(red: 208 / 255, green: 188 / 255, blue: 255 / 255)
-}
- 
-var Purple40: Color {
-    return Color(red: 102 / 255, green: 80 / 255, blue: 164 / 255)
-}
-
-var DarkGray: Color {
-    return Color(red: 22 / 255, green: 22 / 255, blue: 22 / 255)
-}
-
-var LightViolet: Color {
-    return Color(red: 229 / 255, green: 215 / 255, blue: 232 / 255)
-}
 
 var shadowColor: Color {
     //Color(red: 0, green: 0, blue: 0, opacity: 50)
     return UIColor(_colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.5).toC
-}
-
-var PurpleGrey80: Color {
-    return Color(red: 204  / 255, green: 194 / 255, blue: 220 / 255)
-}
-var Pink80: Color {
-    return Color(red: 239 / 255,green: 184 / 255, blue: 200 / 255)
-}
-
-var PurpleGrey40: Color {
-    return Color(red: 98 / 255, green: 91 / 255, blue: 113 / 255)
-}
-
-var Pink40: Color {
-    return Color(red: 125 / 255, green: 82 / 255, blue: 96 / 255)
 }
 
 var Green: Color {

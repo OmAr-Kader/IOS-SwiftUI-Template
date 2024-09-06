@@ -69,7 +69,7 @@ struct BackButton: View {
                     ).font(.system(size: 17))
                         .foregroundStyle(
                             Color(red: 9 / 255, green: 131 / 255, blue: 1)
-                        ).padding(leading: -7)
+                        ).padding(        start: -7)
                 }.frame(width: 90, height: 45)
             }
             Spacer()
@@ -112,7 +112,7 @@ struct BackPressButton: View {
                 ).font(.system(size: 17))
                     .foregroundStyle(
                         Color(red: 9 / 255, green: 131 / 255, blue: 1)
-                    ).padding(leading: -7)
+                    ).padding(        start: -7)
             }.frame(width: 90, height: 45)
         }
     }

@@ -54,7 +54,7 @@ struct DrawerText : View {
                 .font(.system(size: 20))
                 .frame(height: 56)
                 .foregroundStyle(textColor)
-                .padding(leading: 16, trailing: 24)
+                .padding(        start: 16, end: 24)
                 .onStart()
         }.frame(width: 250, height: 56, alignment: .center).background(itemColor)
     }
@@ -77,7 +77,7 @@ struct DrawerItem : View {
                     text
                 ).font(.system(size: 20))
                     .foregroundStyle(textColor)
-            }.padding(leading: 16, trailing: 24).onStart()
+            }.padding(        start: 16, end: 24).onStart()
         }.frame(width: 250)
 
     }

@@ -5,16 +5,16 @@ extension View {
     
     @inlinable public func padding(
         top: CGFloat? = nil,
-        leading: CGFloat? = nil,
+        start: CGFloat? = nil,
         bottom: CGFloat? = nil,
-        trailing: CGFloat? = nil
+        end: CGFloat? = nil
     ) -> some View {
         return padding(
             EdgeInsets(
                 top: top ?? 0,
-                leading: leading ?? 0,
+                leading:         start ?? 0,
                 bottom: bottom ?? 0,
-                trailing: trailing ?? 0
+                trailing: end ?? 0
             )
         )
     }
@@ -270,7 +270,7 @@ struct PagerTabButton : View {
                 Text(text).foregroundStyle(theme.textForPrimaryColor)
                     .font(.system(size: width / 8)).lineLimit(1)
             }
-        }.padding(leading: 6, trailing: 5).frame(width: width, height: width / 2).background(
+        }.padding(        start: 6, end: 5).frame(width: width, height: width / 2).background(
             RoundedRectangle(cornerRadius: corner).fill(color)
         )
 
@@ -399,7 +399,7 @@ struct CardAnimationButton : View {
                         .progressViewStyle(CircularProgressViewStyle(tint: textColor))
                 }
             }
-        }).padding(top: 5, leading: 0, bottom: 5, trailing: 0)
+        }).padding(top: 5,         start: 0, bottom: 5, end: 0)
             .background(
                 RoundedRectangle(cornerRadius: CGFloat(animated))
                     .fill(c)
@@ -476,7 +476,7 @@ struct MultipleFloatingButton: View {
             .cornerRadius(30)
             .shadow(radius: 10)
             .onBottomEnd()
-        }.padding(trailing: 20)
+        }.padding(end: 20)
     }
     
     @ViewBuilder var buttonExpendContent: some View {
@@ -494,7 +494,7 @@ struct MultipleFloatingButton: View {
                                 .padding(3)
                                 .frame(width: 25, height: 25)
                             Text("Article")
-                                .padding(leading: -3)
+                                .padding(        start: -3)
                                 .foregroundStyle(theme.textForPrimaryColor)
                                 .font(.system(size: 14))
                                 .lineLimit(1)
@@ -516,7 +516,7 @@ struct MultipleFloatingButton: View {
                                 .padding(3)
                                 .frame(width: 25, height: 25)
                             Text("Course")
-                                .padding(leading: -3)
+                                .padding(        start: -3)
                                 .foregroundStyle(theme.textForPrimaryColor)
                                 .font(.system(size: 14))
                                 .lineLimit(1)
@@ -527,7 +527,7 @@ struct MultipleFloatingButton: View {
                     .cornerRadius(10)
                     .shadow(radius: 10)
                 }.onBottomEnd()
-            }.padding(bottom: 100, trailing: 20)
+            }.padding(bottom: 100, end: 20)
         }
     }
     
@@ -576,7 +576,7 @@ struct FloatingButton: View {
             .cornerRadius(30)
             .shadow(radius: 10)
             .onBottomEnd()
-        }.padding(trailing: 20)
+        }.padding(end: 20)
     }
 }
 
@@ -631,7 +631,7 @@ struct OutlinedButton : View {
                     .frame(height: 40)
                     .font(.system(size: 12))
                     //.padding(top: 5, leading: 15, bottom: 5, trailing: 15)
-                    .padding(leading: 15, trailing: 15)
+                    .padding(        start: 15, end: 15)
                     .background(
                         RoundedRectangle(cornerRadius: 20).fill(theme.primary)
                     ).animation(.linear(duration: 0.5), value: animate)
@@ -642,7 +642,7 @@ struct OutlinedButton : View {
                     .frame(height: 40)
                     .font(.system(size: 12))
                     //.padding(top: 5, leading: 15, bottom: 5, trailing: 15)
-                    .padding(leading: 15, trailing: 15)
+                    .padding(        start: 15, end: 15)
                     .background(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(theme.primary, lineWidth: 1)
@@ -802,7 +802,7 @@ struct TextFullPageScrollable : View {
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(textColor)
                     .font(.system(size: 14))
-                    .padding(leading: 20, trailing: 20)
+                    .padding(        start: 20, end: 20)
                     .lineLimit(nil).onStart()
             }
         }
@@ -829,7 +829,7 @@ struct RadioDialog : View {
                             RadioButton(selected: it == current) {
                                 onClick(it)
                             }
-                            Text(it).padding(leading: 10)
+                            Text(it).padding(        start: 10)
                             Spacer()
                         }.padding(16)
                     }
