@@ -39,6 +39,11 @@ class AppObserve : ObservableObject {
     }
     
     @MainActor
+    func navigateHomeNoAnimation(_ screen: Screen) -> Unit {
+        self.state = self.state.copy(homeScreen: screen)
+    }
+    
+    @MainActor
     func navigateTo(_ screen: Screen) {
         self.navigationPath.append(screen)
     }

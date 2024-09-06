@@ -71,8 +71,3 @@ extension User {
         return config
     }
 }
- 
-@globalActor actor BackgroundActor: GlobalActor {
-    static var shared = BackgroundActor()
-}
-
