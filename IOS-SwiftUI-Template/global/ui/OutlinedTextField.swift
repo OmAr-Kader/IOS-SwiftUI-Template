@@ -58,12 +58,15 @@ struct OutlinedTextField : View {
                 .preferredColorScheme(theme.isDarkMode ? .dark : .light)
                 .autocapitalization(.none)
                 .background(
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .fill(backColor ?? .clear)
-                        .stroke(
-                            isError ? theme.error : (isFocused ? theme.primary : theme.secondary),
-                            lineWidth: backColor == nil ? 1.5 : 0
-                        )
+                    ZStack {
+                        RoundedRectangle(cornerRadius: cornerRadius)
+                            .fill(backColor ?? .clear)
+                        RoundedRectangle(cornerRadius: cornerRadius)
+                            .stroke(
+                                isError ? theme.error : (isFocused ? theme.primary : theme.secondary),
+                                lineWidth: backColor == nil ? 1.5 : 0
+                            )
+                    }
                 ).onTapGesture {
                     isFocused = true
                 }.onAppearTask(delay: isInitFocused ? 0.35 : 0) {
