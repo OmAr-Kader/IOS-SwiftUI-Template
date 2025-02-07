@@ -2,57 +2,38 @@ name: iOS Starter Workflow
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-  build:
-    name: Build and Test default scheme using any available iPhone simulator
+  build-and-test:
     runs-on: macos-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Debug - List Project Files
-        run: ls -R
+      # Set up Xcode environment
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_14.app
 
-      - name: Set Default Scheme
-        run: |
-          scheme_list=$(xcodebuild -list -json -project IOS-SwiftUI-Template.xcodeproj | tr -d "\n")
-          if [ -z "$scheme_list" ]; then
-            echo "Error: No Xcode project or workspace found in IOS-SwiftUI-Template."
-            exit 1
-          fi
-          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]" 2>/dev/null || echo "Error")
-          if [ "$default" = "Error" ]; then
-            echo "Error: Could not parse Xcode schemes."
-            exit 1
-          fi
-          echo $default | cat >default
-          echo "Using default scheme: $default"
+      # Set up Swift Package Manager dependencies
+      - name: Resolve Swift Package Manager dependencies
+        run: swift package resolve
+        working-directory: ./iOSApp
 
-      - name: Build
+      # Build the project
+      - name: Build project
+        run: xcodebuild build -scheme YourAppScheme -project ./iOSApp/YourAppProject.xcodeproj
         env:
-          scheme: ${{ 'default' }}
-          platform: ${{ 'iOS Simulator' }}
-        run: |
-          device=$(xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//")
-          if [ "$scheme" = "default" ]; then scheme=$(cat default); fi
-          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then 
-            filetype_parameter="workspace" 
-            file_to_build="`ls -A | grep -i \\.xcworkspace\$`"
-          else 
-            filetype_parameter="project"
-            file_to_build="`ls -A | grep -i \\.xcodeproj\$`"
-          fi
-          file_to_build=$(echo $file_to_build | awk '{$1=$1;print}')
-          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+          DEVELOPER_DIR: /Applications/Xcode_14.app/Contents/Developer
 
-      - name: Run Unit Tests
-        run: |
-          xcodebuild clean test \
-          -project IOS-SwiftUI-Template.xcodeproj \
-          -scheme IOS-SwiftUI-Template \
-          -destination 'platform=iOS Simulator,name=iPhone 11,OS=latest' \
-          -enableCodeCoverage YES | xcpretty
+      # Run tests
+      - name: Run tests
+        run: xcodebuild test -scheme YourAppScheme -project ./iOSApp/YourAppProject.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest'
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_14.app/Contents/Developer
