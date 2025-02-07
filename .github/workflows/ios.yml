@@ -17,10 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Xcode environment
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_14.app
-
       # Set up Swift Package Manager dependencies
       - name: Resolve Swift Package Manager dependencies
         run: swift package resolve
@@ -29,11 +25,7 @@ jobs:
       # Build the project
       - name: Build project
         run: xcodebuild build -scheme YourAppScheme -project ./iOSApp/YourAppProject.xcodeproj
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_14.app/Contents/Developer
 
       # Run tests
       - name: Run tests
         run: xcodebuild test -scheme YourAppScheme -project ./iOSApp/YourAppProject.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest'
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_14.app/Contents/Developer
