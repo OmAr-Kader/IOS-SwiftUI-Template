@@ -2,9 +2,9 @@ name: iOS Starter Workflow
 
 on:
   push:
-    branches: [ "OmAr-Kader-patch-1" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "OmAr-Kader-patch-1" ]
+    branches: [ "master" ]
 
 jobs:
   build:
