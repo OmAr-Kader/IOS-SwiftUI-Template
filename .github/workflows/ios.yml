@@ -38,18 +38,37 @@ jobs:
           scheme: ${{ 'default' }}
           platform: ${{ 'iOS Simulator' }}
         run: |
-          #cd iosApp  # Move into the subfolder
-          device=$(xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//")
-          if [ "$scheme" = "default" ]; then scheme=$(cat default); fi
-          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then 
-            filetype_parameter="workspace" 
-            file_to_build="`ls -A | grep -i \\.xcworkspace\$`"
-          else 
-            filetype_parameter="project"
-            file_to_build="`ls -A | grep -i \\.xcodeproj\$`"
+          # Optionally, change directory if your project is in a subfolder
+          # cd iosApp
+      
+          # Get the first available device name
+          device=$(xcrun xctrace list devices 2>&1 \
+            | grep -oE 'iPhone.*?[^\(]+' \
+            | head -1 \
+            | awk '{$1=$1;print}' \
+            | sed -e "s/ Simulator$//")
+      
+          # Resolve the scheme if it's set to "default"
+          if [ "$scheme" = "default" ]; then 
+            scheme=$(cat default)
           fi
-          file_to_build=$(echo $file_to_build | awk '{$1=$1;print}')
-          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+      
+          # Determine whether a workspace or project file is available.
+          workspace_file=$(ls -A | grep -i '\.xcworkspace$')
+          if [ -n "$workspace_file" ]; then 
+            filetype_parameter="workspace"
+            file_to_build="$workspace_file"
+          else 
+            project_file=$(ls -A | grep -i '\.xcodeproj$')
+            filetype_parameter="project"
+            file_to_build="$project_file"
+          fi
+      
+          # Execute the build-for-testing command with the correct file reference.
+          xcodebuild build-for-testing \
+            -scheme "$scheme" \
+            -"$filetype_parameter" "$file_to_build" \
+            -destination "platform=$platform,name=$device"
 
       - name: Run Unit Tests
         run: |
