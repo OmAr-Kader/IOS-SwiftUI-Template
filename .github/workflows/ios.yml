@@ -19,7 +19,6 @@ jobs:
 
       - name: Set Default Scheme
         run: |
-          #cd iosApp  # Move into the subfolder where the Xcode project is located
           scheme_list=$(xcodebuild -list -json -project IOS-SwiftUI-Template.xcodeproj | tr -d "\n")
           if [ -z "$scheme_list" ]; then
             echo "Error: No Xcode project or workspace found in IOS-SwiftUI-Template."
@@ -38,7 +37,6 @@ jobs:
           scheme: ${{ 'default' }}
           platform: ${{ 'iOS Simulator' }}
         run: |
-          # Get the first available device name
           device=$(xcrun xctrace list devices 2>&1 \
             | grep -oE 'iPhone.*?[^\(]+' \
             | head -1 \
