@@ -222,10 +222,9 @@ public extension TimeInterval {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, *)
 public extension Task where Success == Never, Failure == Never {
-    static func sleep(_ duration: TimeInterval) async throws {
-        try await Task.sleep(nanoseconds: duration.nanoseconds)
+    static func sleep(sec duration: TimeInterval) async {
+        try? await Task.sleep(nanoseconds: duration.nanoseconds)
     }
 }
 
