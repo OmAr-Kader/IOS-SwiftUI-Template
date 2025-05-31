@@ -158,11 +158,7 @@ extension View {
             }
         } else {
             task {
-                do {
-                    try await Task.sleep(delay)
-                } catch {
-                    return
-                }
+                await Task.sleep(sec: delay)
                 await perform()
             }
         }

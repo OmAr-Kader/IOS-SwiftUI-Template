@@ -1,7 +1,7 @@
 import Foundation
 
 @frozen public struct Tasker : Sendable {
-
+    
     private var tasks: [String: Task<Void, Error>] = [:]
 
     private var backTask: Task<Void, Error>?
@@ -37,18 +37,39 @@ import Foundation
     }
     
     @inline(__always) @discardableResult mutating nonisolated func backAutoCancle(id: String, block: @BackgroundActor @escaping () async -> Void) -> Task<Void, Error>? {
-        tasks.checkAndcancel(id: id)
+        tasks.checkAndCancel(id: id)
+        var copy: Tasker? = self
         let task = Task<Void, Error> { @BackgroundActor in
-            /// Use `defer` to ensure removal from `tasks` when this Task finishes,
-            /// no matter if it succeeded, threw, or was cancelled.
-            /*defer {
-                Task { [self] in remove(id: id) }
-            }*/
+            defer {
+                copy?.removeTask(id)
+            }
             return await block()
         }
         tasks[id] = task
         return task
     }
+    
+    @inline(__always) @discardableResult mutating nonisolated func backOnlyFirst(id: String, block: @BackgroundActor @escaping () async -> Void) -> Task<Void, Error>? {
+        guard tasks[id] == nil else {
+            print("already exist task with id: \(id)")
+            return nil
+        }
+        var copy: Tasker? = self
+        let task = Task<Void, Error> { @BackgroundActor in
+            defer {
+                copy?.removeTask(id)
+            }
+            return await block()
+        }
+        tasks[id] = task
+        return task
+    }
+    
+    
+    mutating func removeTask(_ id: String) {
+        self.tasks.removeValue(forKey: id)
+    }
+    
     
     mutating func deInit() {
         backTask?.cancel()
@@ -62,12 +83,13 @@ import Foundation
 
 extension [String: Task<Void, Error>]  {
     
-    mutating nonisolated func checkAndcancel(id: String) {
+    mutating nonisolated func checkAndCancel(id: String) {
         guard let oldTask = self[id] else { return }
         if !oldTask.isCancelled {
             oldTask.cancel()
         }
         self.removeValue(forKey: id)
+        print("canceled \(id)")
     }
     
     mutating nonisolated func cancel(id: String) {
