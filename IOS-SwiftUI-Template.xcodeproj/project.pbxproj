@@ -22,14 +22,11 @@
 		07F37E542BF917D000E20408 /* RealmSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E512BF917D000E20408 /* RealmSync.swift */; };
 		07F37E552BF917D100E20408 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E522BF917D000E20408 /* Converter.swift */; };
 		07F37E562BF917D100E20408 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E532BF917D000E20408 /* Realm.swift */; };
-		07F37E582BF9183300E20408 /* BaseRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E572BF9183300E20408 /* BaseRepoImp.swift */; };
-		07F37E5A2BF9186C00E20408 /* ConverterUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E592BF9186C00E20408 /* ConverterUI.swift */; };
 		07F37E5D2BF9194500E20408 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E5B2BF9194400E20408 /* Preference.swift */; };
 		07F37E5E2BF9194500E20408 /* ResultRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E5C2BF9194500E20408 /* ResultRealm.swift */; };
 		07F37E7A2BF9197A00E20408 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E5F2BF9197A00E20408 /* Color.swift */; };
 		07F37E7B2BF9197A00E20408 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E602BF9197A00E20408 /* Const.swift */; };
-		07F37E7C2BF9197A00E20408 /* Scope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E612BF9197A00E20408 /* Scope.swift */; };
-		07F37E7D2BF9197A00E20408 /* SecureConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E622BF9197A00E20408 /* SecureConst.swift */; };
+		07F37E7C2BF9197A00E20408 /* Tasker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E612BF9197A00E20408 /* Tasker.swift */; };
 		07F37E7E2BF9197A00E20408 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E632BF9197A00E20408 /* Theme.swift */; };
 		07F37E7F2BF9197A00E20408 /* Roots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E652BF9197A00E20408 /* Roots.swift */; };
 		07F37E802BF9197A00E20408 /* BarBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E672BF9197A00E20408 /* BarBuilder.swift */; };
@@ -51,6 +48,9 @@
 		07F37E942BF919F800E20408 /* PrefRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E902BF919F800E20408 /* PrefRepo.swift */; };
 		07F37E952BF919F800E20408 /* PrefRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E912BF919F800E20408 /* PrefRepoImp.swift */; };
 		07F37E972BF91A8000E20408 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E962BF91A8000E20408 /* Main.swift */; };
+		DC33C9992DEB644200E9B24F /* BaseRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33C9972DEB644200E9B24F /* BaseRepoImp.swift */; };
+		DC33C99A2DEB644200E9B24F /* ConverterUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33C9982DEB644200E9B24F /* ConverterUI.swift */; };
+		DC33C99C2DEB645C00E9B24F /* SecureConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33C99B2DEB645C00E9B24F /* SecureConst.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,14 +69,11 @@
 		07F37E512BF917D000E20408 /* RealmSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSync.swift; sourceTree = "<group>"; };
 		07F37E522BF917D000E20408 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		07F37E532BF917D000E20408 /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
-		07F37E572BF9183300E20408 /* BaseRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepoImp.swift; sourceTree = "<group>"; };
-		07F37E592BF9186C00E20408 /* ConverterUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterUI.swift; sourceTree = "<group>"; };
 		07F37E5B2BF9194400E20408 /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
 		07F37E5C2BF9194500E20408 /* ResultRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultRealm.swift; sourceTree = "<group>"; };
 		07F37E5F2BF9197A00E20408 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		07F37E602BF9197A00E20408 /* Const.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
-		07F37E612BF9197A00E20408 /* Scope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scope.swift; sourceTree = "<group>"; };
-		07F37E622BF9197A00E20408 /* SecureConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureConst.swift; sourceTree = "<group>"; };
+		07F37E612BF9197A00E20408 /* Tasker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasker.swift; sourceTree = "<group>"; };
 		07F37E632BF9197A00E20408 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		07F37E652BF9197A00E20408 /* Roots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Roots.swift; sourceTree = "<group>"; };
 		07F37E672BF9197A00E20408 /* BarBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarBuilder.swift; sourceTree = "<group>"; };
@@ -98,6 +95,9 @@
 		07F37E902BF919F800E20408 /* PrefRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefRepo.swift; sourceTree = "<group>"; };
 		07F37E912BF919F800E20408 /* PrefRepoImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefRepoImp.swift; sourceTree = "<group>"; };
 		07F37E962BF91A8000E20408 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		DC33C9972DEB644200E9B24F /* BaseRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepoImp.swift; sourceTree = "<group>"; };
+		DC33C9982DEB644200E9B24F /* ConverterUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterUI.swift; sourceTree = "<group>"; };
+		DC33C99B2DEB645C00E9B24F /* SecureConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureConst.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,11 +188,11 @@
 		07F37E4F2BF9176700E20408 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				07F37E572BF9183300E20408 /* BaseRepoImp.swift */,
 				07F37E522BF917D000E20408 /* Converter.swift */,
-				07F37E592BF9186C00E20408 /* ConverterUI.swift */,
 				07F37E532BF917D000E20408 /* Realm.swift */,
 				07F37E512BF917D000E20408 /* RealmSync.swift */,
+				DC33C9972DEB644200E9B24F /* BaseRepoImp.swift */,
+				DC33C9982DEB644200E9B24F /* ConverterUI.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -210,9 +210,9 @@
 			children = (
 				07F37E5F2BF9197A00E20408 /* Color.swift */,
 				07F37E602BF9197A00E20408 /* Const.swift */,
-				07F37E612BF9197A00E20408 /* Scope.swift */,
-				07F37E622BF9197A00E20408 /* SecureConst.swift */,
+				07F37E612BF9197A00E20408 /* Tasker.swift */,
 				07F37E632BF9197A00E20408 /* Theme.swift */,
+				DC33C99B2DEB645C00E9B24F /* SecureConst.swift */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					07F37E212BF9141C00E20408 = {
 						CreatedOnToolsVersion = 15.4;
@@ -365,8 +365,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				07F37E7F2BF9197A00E20408 /* Roots.swift in Sources */,
-				07F37E7D2BF9197A00E20408 /* SecureConst.swift in Sources */,
-				07F37E7C2BF9197A00E20408 /* Scope.swift in Sources */,
+				DC33C99C2DEB645C00E9B24F /* SecureConst.swift in Sources */,
+				07F37E7C2BF9197A00E20408 /* Tasker.swift in Sources */,
 				07F37E802BF9197A00E20408 /* BarBuilder.swift in Sources */,
 				07F37E8A2BF9197A00E20408 /* ToastView.swift in Sources */,
 				07F37E3B2BF915B700E20408 /* AppDelegate.swift in Sources */,
@@ -378,7 +378,6 @@
 				07F37E872BF9197A00E20408 /* NavigationDrawer.swift in Sources */,
 				07F37E972BF91A8000E20408 /* Main.swift in Sources */,
 				07F37E942BF919F800E20408 /* PrefRepo.swift in Sources */,
-				07F37E582BF9183300E20408 /* BaseRepoImp.swift in Sources */,
 				07F37E882BF9197A00E20408 /* OutlinedTextField.swift in Sources */,
 				07F37E412BF915CC00E20408 /* AppObserve.swift in Sources */,
 				07F37E8B2BF9197A00E20408 /* Views.swift in Sources */,
@@ -388,7 +387,6 @@
 				07F37E812BF9197A00E20408 /* BottomBar.swift in Sources */,
 				07F37E7E2BF9197A00E20408 /* Theme.swift in Sources */,
 				07F37E932BF919F800E20408 /* PreferenceBase.swift in Sources */,
-				07F37E5A2BF9186C00E20408 /* ConverterUI.swift in Sources */,
 				07F37E822BF9197A00E20408 /* BottomBarItem.swift in Sources */,
 				07F37E7A2BF9197A00E20408 /* Color.swift in Sources */,
 				07F37E8E2BF9197A00E20408 /* Web.swift in Sources */,
@@ -397,6 +395,8 @@
 				07F37E262BF9141C00E20408 /* IOS_SwiftUI_TemplateApp.swift in Sources */,
 				07F37E5D2BF9194500E20408 /* Preference.swift in Sources */,
 				07F37E8D2BF9197A00E20408 /* Utils.swift in Sources */,
+				DC33C9992DEB644200E9B24F /* BaseRepoImp.swift in Sources */,
+				DC33C99A2DEB644200E9B24F /* ConverterUI.swift in Sources */,
 				07F37E562BF917D100E20408 /* Realm.swift in Sources */,
 				07F37E952BF919F800E20408 /* PrefRepoImp.swift in Sources */,
 				07F37E7B2BF9197A00E20408 /* Const.swift in Sources */,
@@ -443,6 +443,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = PZ43Q4WJMV;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -466,6 +467,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -505,6 +507,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = PZ43Q4WJMV;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -520,6 +523,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -534,7 +538,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"IOS-SwiftUI-Template/Preview Content\"";
-				DEVELOPMENT_TEAM = PZ43Q4WJMV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -548,7 +551,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -576,7 +579,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"IOS-SwiftUI-Template/Preview Content\"";
-				DEVELOPMENT_TEAM = PZ43Q4WJMV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -590,7 +592,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;

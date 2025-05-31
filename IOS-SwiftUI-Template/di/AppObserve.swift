@@ -7,7 +7,7 @@ class AppObserve : ObservableObject {
     @Inject
     private var project: Project
         
-    private var scope = Scope()
+    private var tasker = Tasker()
 
     @Published var navigationPath = NavigationPath()
     
@@ -21,7 +21,7 @@ class AppObserve : ObservableObject {
     init() {
         prefsTask?.cancel()
         sinkPrefs?.cancel()
-        prefsTask = scope.launchBack {
+        prefsTask = tasker.back {
             self.sinkPrefs = await self.project.pref.prefsRealTime { list in
                 self.preferences = list
             }
@@ -56,7 +56,7 @@ class AppObserve : ObservableObject {
     }
     
     private func inti(invoke: @BackgroundActor @escaping ([PreferenceData]) -> Unit) {
-        scope.launchBack {
+        tasker.back {
             await self.project.pref.prefs { list in
                 invoke(list)
             }
@@ -74,18 +74,18 @@ class AppObserve : ObservableObject {
         }
         if (self.preferences.isEmpty) {
             self.inti { it in
-                self.scope.launchBack {
+                self.tasker.back {
                     let userBase = await self.fetchUserBase(it)
-                    self.scope.launchMain {
+                    self.tasker.mainSync {
                         self.preferences = it
                         invoke(userBase)
                     }
                 }
             }
         } else {
-            self.scope.launchBack {
+            self.tasker.back {
                 let userBase = await self.fetchUserBase(self.preferences)
-                self.scope.launchMain {
+                self.tasker.mainSync {
                     invoke(userBase)
                 }
             }
@@ -105,7 +105,7 @@ class AppObserve : ObservableObject {
     }
 
     func updateUserBase(userBase: UserBase, invoke: @escaping @MainActor () -> Unit) {
-        scope.launchBack {
+        tasker.backSync {
             var list : [PreferenceData] = []
             list.append(PreferenceData(keyString: PREF_USER_ID, value: userBase.id))
             list.append(PreferenceData(keyString: PREF_USER_NAME, value: userBase.name))
@@ -113,7 +113,7 @@ class AppObserve : ObservableObject {
             list.append(PreferenceData(keyString: PREF_USER_TYPE, value: String(userBase.accountType)))
             await self.project.pref.updatePref(list) { newPref in
                 self.inti { it in
-                    self.scope.launchMain {
+                    self.tasker.mainSync {
                         self.preferences = it
                         invoke()
                     }
@@ -129,15 +129,15 @@ class AppObserve : ObservableObject {
         if (preferences.isEmpty) {
             inti { it in
                 let preference = it.first { it1 in it1.keyString == key }?.value
-                self.scope.launchMain {
+                self.tasker.mainSync {
                     self.preferences = it
                     value(preference)
                 }
             }
         } else {
-            scope.launchBack {
+            tasker.back {
                 let preference = self.preferences.first { it1 in it1.keyString == key }?.value
-                self.scope.launchMain {
+                self.tasker.mainSync {
                     value(preference)
                 }
             }
@@ -145,14 +145,14 @@ class AppObserve : ObservableObject {
     }
     
     func updatePref(key: String, newValue: String, _ invoke: @MainActor @escaping () -> ()) {
-        scope.launchBack {
+        self.tasker.back {
             await self.project.pref.updatePref(
                 PreferenceData(
                     keyString: key,
                     value: newValue
                 ), newValue
             ) { _ in
-                self.scope.launchMain {
+                self.tasker.mainSync {
                     invoke()
                 }
             }
@@ -172,14 +172,14 @@ class AppObserve : ObservableObject {
     
     @MainActor
     func signOut(_ invoke: @escaping @MainActor () -> Unit,_ failed: @escaping @MainActor () -> Unit) {
-        scope.launchBack {
+        tasker.back {
             let result = await self.project.pref.deletePrefAll()
             if result == REALM_SUCCESS {
-                self.scope.launchMain {
+                self.self.tasker.mainSync {
                     invoke()
                 }
             } else {
-                self.scope.launchMain {
+                self.self.tasker.mainSync {
                     failed()
                 }
             }
@@ -227,7 +227,7 @@ class AppObserve : ObservableObject {
         sinkPrefs?.cancel()
         sinkPrefs = nil
         prefsTask = nil
-        scope.deInit()
+        tasker.deInit()
     }
     
 }

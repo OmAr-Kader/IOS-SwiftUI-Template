@@ -170,19 +170,6 @@ extension View {
 
 }
 
-public extension TimeInterval {
-    var nanoseconds: UInt64 {
-        return UInt64((self * 1_000_000_000).rounded())
-    }
-}
-
-@available(iOS 13.0, macOS 10.15, *)
-public extension Task where Success == Never, Failure == Never {
-    static func sleep(_ duration: TimeInterval) async throws {
-        try await Task.sleep(nanoseconds: duration.nanoseconds)
-    }
-}
-
 struct ButtonCurvedGradient : View {
     
     let text: String
