@@ -9,6 +9,8 @@ class AppObserve : ObservableObject {
         
     private var tasker = Tasker()
 
+    var shouldNotify = true // MARK: HINT => SHOUD BE USED IN SUB SCREEN
+
     @Published var navigationPath = NavigationPath()
     
     @Published var state = State()
@@ -26,6 +28,11 @@ class AppObserve : ObservableObject {
                 self.preferences = list
             }
         }
+    }
+    
+    @MainActor
+    func updatenavigationPath(_ it: NavigationPath) {
+        self.navigationPath = it
     }
     
     @MainActor

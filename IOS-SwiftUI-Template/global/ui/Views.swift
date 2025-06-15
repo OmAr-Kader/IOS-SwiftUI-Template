@@ -164,7 +164,34 @@ extension View {
         }
     }
 
+    func dismissKeyboard() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.windows.first?.endEditing(true) // Resign first responder
+        }
+    }
+    
+    func onAppeared(_ perform: @escaping () -> Void) -> some View {
+        self.modifier(OnFirstAppearModifier(action: perform))
+    }
 }
+
+
+struct OnFirstAppearModifier: ViewModifier {
+    @State private var isAppeared = false
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                if isAppeared {
+                    return
+                }
+                isAppeared = true
+                action()
+            }
+    }
+}
+
 
 struct ButtonCurvedGradient : View {
     

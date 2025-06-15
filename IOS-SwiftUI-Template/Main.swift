@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct Main: View {
-    @StateObject var app: AppObserve
     
+    /*@StateObject*/
+    var app: AppObserve
+    @State private var renderTrigger = 0
+
     @Inject
     private var theme: Theme
     
@@ -33,20 +36,32 @@ struct Main: View {
         }
     }
     
-    
     var screenConfig: @MainActor (Screen) -> (any ScreenConfig)? {
         return { screen in
             return app.findArg(screen: screen)
         }
     }
+    
     var body: some View {
         //let isSplash = app.state.homeScreen == Screen.SPLASH_SCREEN_ROUTE
-        NavigationStack(path: $app.navigationPath) {
+        
+        let _ = print("Main rendered \(renderTrigger)") // MARK: HINT => Necessary To Re-render
+        NavigationStack(path: Binding(get: { app.navigationPath }, set: { it in app.updatenavigationPath(it)})) {
             targetScreen(
                 app.state.homeScreen, app, navigateTo: navigateTo, navigateToScreen: navigateToScreen, navigateHome: navigateHome, backPress: backPress, screenConfig: screenConfig
             ).navigationDestination(for: Screen.self) { route in
-                targetScreen(route, app, navigateTo: navigateTo, navigateToScreen: navigateToScreen, navigateHome: navigateHome, backPress: backPress, screenConfig: screenConfig)//.toolbar(.hidden, for: .navigationBar)
+                targetScreen(route, app, navigateTo: navigateTo, navigateToScreen: navigateToScreen, navigateHome: navigateHome, backPress: backPress, screenConfig: screenConfig)
+                    //.toolbar(.hidden, for: .navigationBar)
             }
+        }.onReceive(app.objectWillChange) {
+            /*.onAppeared { // MARK: HINT => SHOUD BE USED IN SUB SCREEN
+                app.shouldNotify = false
+            }.onDisappear {
+                app.shouldNotify = true
+            }*/
+            guard self.app.shouldNotify else { return }
+            let _ = print("Main rendered objectWillChange")
+            renderTrigger += 1 // force SwiftUI to re-evaluate
         }/*.prepareStatusBarConfigurator(
           isSplash ? theme.background : theme.primary, isSplash, theme.isDarkStatusBarText
           )*/
