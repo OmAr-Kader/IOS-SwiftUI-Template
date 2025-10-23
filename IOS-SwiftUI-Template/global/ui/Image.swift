@@ -55,7 +55,7 @@ struct ImageCacheView : View {
     
 }
 
-
+@MainActor
 class UrlImageModel: ObservableObject {
     @Published var image: UIImage?
     private var url: URL?
@@ -187,31 +187,47 @@ class ImageCache {
 }
 
 extension ImageCache {
+    
+    @MainActor
     private static var imageCache = ImageCache()
 
+    @MainActor
     static func getImageCache() -> ImageCache {
         return imageCache
     }
 }
 
-struct PhotoPiceker<Content : View> : View {
+@MainActor
+public struct PhotoPicker<Content: View & Sendable> : View {
 
-    @State private var selectedItem: PhotosPickerItem?
+    @State
+    private var selectedItem: PhotosPickerItem?
 
-    let pickerType: PHPickerFilter
-    @ViewBuilder let content: () -> Content
-    let imagePicked: (URL) -> Unit
-    var body: some View {
-
+    private let pickerType: PHPickerFilter
+    
+    @ViewBuilder
+    private let content: @Sendable () -> Content
+    
+    private let imagePicked: @Sendable (URL?) -> Void
+    
+    @MainActor
+    public init(pickerType: PHPickerFilter, @ViewBuilder content: @escaping @Sendable () -> Content, imagePicked: @escaping @Sendable (URL?) -> Void) {
+        self.pickerType = pickerType
+        self.content = content
+        self.imagePicked = imagePicked
+    }
+    
+    @MainActor
+    public var body: some View {
         PhotosPicker(
             selection: $selectedItem,
             matching: pickerType
         ) {
-            //ImageAsset(icon: "upload", tint: .white).frame(width: 45, height: 45).padding(5)
             content()
         }.onChange(selectedItem, forChangePhoto(imagePicked))
     }
 }
+
 
 struct DataPicker : View {
 

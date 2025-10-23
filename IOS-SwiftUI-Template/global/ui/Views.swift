@@ -438,29 +438,6 @@ struct FullZStack<Content> : View where Content : View {
     }
 }
 
-func forChangePhoto(_ image: @escaping (URL) -> Void) -> ((PhotosPickerItem?) -> Void){
-    return { newIt in
-        logger(
-            "imageUri",
-            String(newIt == nil)
-        )
-        if (newIt != nil) {
-            getURL(item: newIt!) { result in
-                switch result {
-                case .success(let url):
-                    image(url)
-                    logger("imageUri", url.absoluteString)
-                case .failure(let failure):
-                    logger(
-                        "imagUri",
-                        failure.localizedDescription
-                    )
-                }
-            }
-        }
-    }
-}
-
 struct MultipleFloatingButton: View {
     let icon: String
     let theme: Theme

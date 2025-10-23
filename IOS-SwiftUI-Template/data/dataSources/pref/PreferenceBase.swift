@@ -1,52 +1,48 @@
 import Combine
+import CouchbaseLiteSwift
 
-class PreferenceBase {
+final class PreferenceBase : Sendable {
+
+    let repository: PrefRepo
     
-    var repository: PrefRepo
-    
-    init(repository: PrefRepo) {
+    public init(repository: PrefRepo) {
         self.repository = repository
     }
     
     @BackgroundActor
-    func prefs(invoke: @BackgroundActor ([PreferenceData]) async -> Unit) async {
-        await repository.prefs { it in
-            await invoke(it.toPreferenceData())
-        }
+    func prefs() async -> [Preference] {
+        await repository.prefs()
+    }
+    
+    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void) -> ListenerToken? {
+        return repository.prefs(invoke: invoke)
+    }
+  
+    @BackgroundActor
+    func insertPref(_ pref: Preference) async -> Preference? {
+        return await repository.insertPref(pref)
     }
     
     @BackgroundActor
-    func prefsRealTime(invoke: @BackgroundActor @escaping ([PreferenceData]) -> Unit) async -> AnyCancellable? {
-        return await repository.prefsRealTime { it in
-            invoke(it.toPreferenceData())
-        }
-    }
-    
-    
-    @BackgroundActor
-    func updatePref(_ prefs: [PreferenceData],_ invoke: @escaping (([PreferenceData]?) -> Unit)) async {
-        await repository.updatePref(prefs.toPreference()) { it in
-            invoke(it?.toPreferenceData())
-        }
+    func insertPref(_ prefs: [Preference]) async -> [Preference]? {
+        return await repository.insertPref(prefs)
     }
     
     @BackgroundActor
-    func updatePref(
-        _ pref: PreferenceData,
-        _ newValue: String,
-        _ invoke: @BackgroundActor @escaping (PreferenceData?) async -> Unit
-    ) async {
-        await repository.updatePref(Preference(pref: pref), newValue) { it in
-            await invoke(it != nil ? PreferenceData(pref: it!) : nil)
-        }
+    func updatePref(_ pref: Preference, newValue: String) async -> Preference? {
+        return await repository.updatePref(pref, newValue: newValue)
     }
-
+    
+    @BackgroundActor
+    func updatePref(_ prefs: [Preference]) async -> [Preference] {
+        return await repository.updatePref(prefs)
+    }
+    
     @BackgroundActor
     func deletePref(key: String) async -> Int {
         return await repository.deletePref(key: key)
     }
     
-    @discardableResult
     @BackgroundActor
     func deletePrefAll() async -> Int {
         return await repository.deletePrefAll()

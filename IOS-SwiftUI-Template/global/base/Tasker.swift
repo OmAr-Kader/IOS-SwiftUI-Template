@@ -155,6 +155,7 @@ extension Optional where Wrapped: ScopeFunc {
         return block(self)
     }
 
+    @BackgroundActor
     @inline(__always) func letSusBack<R>(_ block: @BackgroundActor (Wrapped) async -> R) async -> R? {
         guard let self = self else { return nil }
         return await block(self)
@@ -188,6 +189,7 @@ extension Optional where Wrapped == ScopeFunc? {
         return block(self)
     }
 
+    @BackgroundActor
     @inline(__always) func letSusBack<R>(_ block: @BackgroundActor (Wrapped) async -> R) async -> R? {
         guard let self = self else { return nil }
         return await block(self)
@@ -251,7 +253,11 @@ public extension Task where Success == Never, Failure == Never {
 }
 
 @globalActor actor BackgroundActor: GlobalActor {
-    static var shared = BackgroundActor()
+    static let shared = BackgroundActor()
+    
+    nonisolated static var instance: BackgroundActor {
+        return shared
+    }
 }
 
 

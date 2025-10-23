@@ -1,6 +1,7 @@
 import UIKit
 import SwiftUI
 
+@MainActor
 class StatusBarConfigurator: ObservableObject {
 
     static var shared = StatusBarConfigurator()

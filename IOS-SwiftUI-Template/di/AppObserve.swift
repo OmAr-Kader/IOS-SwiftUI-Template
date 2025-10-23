@@ -1,13 +1,21 @@
 import Foundation
 import SwiftUI
 import Combine
+import CouchbaseLiteSwift
 
-class AppObserve : ObservableObject {
+class BaseObserve: ObservableObject {
+    
+    let project: Project
+    
+    var tasker = Tasker()
 
-    @Inject
-    private var project: Project
-        
-    private var tasker = Tasker()
+    init(project: Project) {
+        self.project = project
+    }
+}
+
+@MainActor
+class AppObserve : BaseObserve, Sendable {
 
     var shouldNotify = true // MARK: HINT => SHOUD BE USED IN SUB SCREEN
 
@@ -16,16 +24,24 @@ class AppObserve : ObservableObject {
     @Published var state = State()
             
     private var preff: Preference? = nil
-    private var preferences: [PreferenceData] = []
+    private var preferences: [Preference] = []
     private var prefsTask: Task<Void, Error>? = nil
-    private var sinkPrefs: AnyCancellable? = nil
+   
+    @BackgroundActor
+    private var sinkPrefs: ListenerToken? = nil
 
     init() {
+        @Inject
+        var project: Project
+        super.init(project: project)
         prefsTask?.cancel()
-        sinkPrefs?.cancel()
+        sinkPrefs?.remove()
         prefsTask = tasker.back {
-            self.sinkPrefs = await self.project.pref.prefsRealTime { list in
-                self.preferences = list
+            self.sinkPrefs = self.project.pref.prefs { list in
+                self.tasker.mainSync {
+                    self.preferences = list
+                    self.initialCount()
+                }
             }
         }
     }
@@ -62,23 +78,19 @@ class AppObserve : ObservableObject {
         }
     }
     
-    private func inti(invoke: @BackgroundActor @escaping ([PreferenceData]) -> Unit) {
+    private func inti(invoke: @BackgroundActor @escaping ([Preference]) -> Unit) {
         tasker.back {
-            await self.project.pref.prefs { list in
-                invoke(list)
-            }
+            await invoke(self.project.pref.prefs())
         }
     }
+    
+    
 
     
     @MainActor
     func findUserBase(
         invoke: @escaping @MainActor (UserBase?) -> Unit
     ) {
-        guard self.project.realmApi.realmApp.currentUser != nil else {
-            invoke(nil)
-            return
-        }
         if (self.preferences.isEmpty) {
             self.inti { it in
                 self.tasker.back {
@@ -100,11 +112,11 @@ class AppObserve : ObservableObject {
     }
 
     @BackgroundActor
-    private func fetchUserBase(_ list: [PreferenceData]) async -> UserBase? {
-        let id = list.last { it in it.keyString == PREF_USER_ID }?.value
-        let name = list.last { it in it.keyString == PREF_USER_NAME }?.value
-        let email = list.last { it in it.keyString == PREF_USER_EMAIL }?.value
-        let userType = list.last { it in it.keyString == PREF_USER_TYPE }?.value
+    private func fetchUserBase(_ list: [Preference]) async -> UserBase? {
+        let id = list.last { it in it.keyString == Const.PREF_USER_ID }?.value
+        let name = list.last { it in it.keyString == Const.PREF_USER_NAME }?.value
+        let email = list.last { it in it.keyString == Const.PREF_USER_EMAIL }?.value
+        let userType = list.last { it in it.keyString == Const.PREF_USER_TYPE }?.value
         if (id == nil || name == nil || email == nil || userType == nil) {
             return nil
         }
@@ -113,25 +125,24 @@ class AppObserve : ObservableObject {
 
     func updateUserBase(userBase: UserBase, invoke: @escaping @MainActor () -> Unit) {
         tasker.backSync {
-            var list : [PreferenceData] = []
-            list.append(PreferenceData(keyString: PREF_USER_ID, value: userBase.id))
-            list.append(PreferenceData(keyString: PREF_USER_NAME, value: userBase.name))
-            list.append(PreferenceData(keyString: PREF_USER_EMAIL, value: userBase.email))
-            list.append(PreferenceData(keyString: PREF_USER_TYPE, value: String(userBase.accountType)))
-            await self.project.pref.updatePref(list) { newPref in
-                self.inti { it in
-                    self.tasker.mainSync {
-                        self.preferences = it
-                        invoke()
-                    }
-                }
+            var list : [Preference] = []
+            list.append(Preference(keyString: Const.PREF_USER_ID, value: userBase.id))
+            list.append(Preference(keyString: Const.PREF_USER_NAME, value: userBase.name))
+            list.append(Preference(keyString: Const.PREF_USER_EMAIL, value: userBase.email))
+            list.append(Preference(keyString: Const.PREF_USER_TYPE, value: String(userBase.accountType)))
+            let _ = await self.project.pref.updatePref(list)
+            let it = await self.project.pref.prefs()
+            self.tasker.mainSync {
+                self.preferences = it
+                invoke()
             }
         }
     }
 
+    @MainActor
     func findPrefString(
         key: String,
-        value: @escaping (String?) -> Unit
+        value: @escaping @MainActor (String?) -> Unit
     ) {
         if (preferences.isEmpty) {
             inti { it in
@@ -142,8 +153,8 @@ class AppObserve : ObservableObject {
                 }
             }
         } else {
+            let preference = self.preferences.first { it1 in it1.keyString == key }?.value
             tasker.back {
-                let preference = self.preferences.first { it1 in it1.keyString == key }?.value
                 self.tasker.mainSync {
                     value(preference)
                 }
@@ -152,16 +163,10 @@ class AppObserve : ObservableObject {
     }
     
     func updatePref(key: String, newValue: String, _ invoke: @MainActor @escaping () -> ()) {
-        self.tasker.back {
-            await self.project.pref.updatePref(
-                PreferenceData(
-                    keyString: key,
-                    value: newValue
-                ), newValue
-            ) { _ in
-                self.tasker.mainSync {
-                    invoke()
-                }
+        tasker.back {
+            _ = await self.project.pref.updatePref(Preference(keyString: key, value: newValue), newValue: newValue)
+            self.tasker.mainSync {
+                invoke()
             }
         }
     }
@@ -181,7 +186,7 @@ class AppObserve : ObservableObject {
     func signOut(_ invoke: @escaping @MainActor () -> Unit,_ failed: @escaping @MainActor () -> Unit) {
         tasker.back {
             let result = await self.project.pref.deletePrefAll()
-            if result == REALM_SUCCESS {
+            if result == Const.CLOUD_SUCCESS {
                 self.self.tasker.mainSync {
                     invoke()
                 }
@@ -193,6 +198,23 @@ class AppObserve : ObservableObject {
         }
     }
 
+    @MainActor
+    func initialCount() {
+        let countInt = (Int(preferences.first(where: { $0.keyString == "test_count"})?.value ?? "0") ?? 0)
+        //withAnimation {
+            self.state = self.state.copy(count: countInt)
+        //}
+    }
+    
+    @MainActor
+    func increaseCount() {
+        let new = (Int(preferences.first(where: { $0.keyString == "test_count"})?.value ?? "0") ?? 0) + 1
+        //state = state.copy(count: .set(new))
+
+        updatePref(key: "test_count", newValue: "\(new)") {
+            
+        }
+    }
     
     private func cancelSession() {
         prefsTask?.cancel()
@@ -200,19 +222,22 @@ class AppObserve : ObservableObject {
     }
 
     struct State {
-
+        
         private(set) var homeScreen: Screen = .AUTH_SCREEN_ROUTE
         private(set) var userBase: UserBase? = nil
+        private(set) var count: Int = 0
         private(set) var args = [Screen : any ScreenConfig]()
-    
+        
         @MainActor
         mutating func copy(
             homeScreen: Screen? = nil,
             userBase: UserBase? = nil,
+            count: Int? = nil,
             args: [Screen : any ScreenConfig]? = nil
         ) -> Self {
             self.homeScreen = homeScreen ?? self.homeScreen
             self.userBase = userBase ?? self.userBase
+            self.count = count ?? self.count
             self.args = args ?? self.args
             return self
         }
@@ -231,7 +256,7 @@ class AppObserve : ObservableObject {
     
     deinit {
         prefsTask?.cancel()
-        sinkPrefs?.cancel()
+        sinkPrefs?.remove()
         sinkPrefs = nil
         prefsTask = nil
         tasker.deInit()

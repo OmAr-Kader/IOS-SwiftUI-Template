@@ -17,13 +17,9 @@
 		07F37E3B2BF915B700E20408 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E3A2BF915B700E20408 /* AppDelegate.swift */; };
 		07F37E402BF915CC00E20408 /* AppModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E3C2BF915CC00E20408 /* AppModule.swift */; };
 		07F37E412BF915CC00E20408 /* AppObserve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E3D2BF915CC00E20408 /* AppObserve.swift */; };
-		07F37E472BF9162800E20408 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 07F37E462BF9162800E20408 /* RealmSwift */; };
 		07F37E4A2BF9165B00E20408 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 07F37E492BF9165B00E20408 /* Swinject */; };
-		07F37E542BF917D000E20408 /* RealmSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E512BF917D000E20408 /* RealmSync.swift */; };
-		07F37E552BF917D100E20408 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E522BF917D000E20408 /* Converter.swift */; };
-		07F37E562BF917D100E20408 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E532BF917D000E20408 /* Realm.swift */; };
+		07F37E562BF917D100E20408 /* Local.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E532BF917D000E20408 /* Local.swift */; };
 		07F37E5D2BF9194500E20408 /* Preference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E5B2BF9194400E20408 /* Preference.swift */; };
-		07F37E5E2BF9194500E20408 /* ResultRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E5C2BF9194500E20408 /* ResultRealm.swift */; };
 		07F37E7A2BF9197A00E20408 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E5F2BF9197A00E20408 /* Color.swift */; };
 		07F37E7B2BF9197A00E20408 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E602BF9197A00E20408 /* Const.swift */; };
 		07F37E7C2BF9197A00E20408 /* Tasker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E612BF9197A00E20408 /* Tasker.swift */; };
@@ -34,7 +30,6 @@
 		07F37E822BF9197A00E20408 /* BottomBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E692BF9197A00E20408 /* BottomBarItem.swift */; };
 		07F37E832BF9197A00E20408 /* BottomBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E6A2BF9197A00E20408 /* BottomBarItemView.swift */; };
 		07F37E842BF9197A00E20408 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E6C2BF9197A00E20408 /* BackButton.swift */; };
-		07F37E852BF9197A00E20408 /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E6D2BF9197A00E20408 /* BottomSheet.swift */; };
 		07F37E862BF9197A00E20408 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E6E2BF9197A00E20408 /* Image.swift */; };
 		07F37E872BF9197A00E20408 /* NavigationDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E6F2BF9197A00E20408 /* NavigationDrawer.swift */; };
 		07F37E882BF9197A00E20408 /* OutlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E702BF9197A00E20408 /* OutlinedTextField.swift */; };
@@ -43,14 +38,12 @@
 		07F37E8B2BF9197A00E20408 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E732BF9197A00E20408 /* Views.swift */; };
 		07F37E8C2BF9197A00E20408 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E752BF9197A00E20408 /* Media.swift */; };
 		07F37E8D2BF9197A00E20408 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E762BF9197A00E20408 /* Utils.swift */; };
-		07F37E8E2BF9197A00E20408 /* Web.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E772BF9197A00E20408 /* Web.swift */; };
 		07F37E932BF919F800E20408 /* PreferenceBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E8F2BF919F800E20408 /* PreferenceBase.swift */; };
 		07F37E942BF919F800E20408 /* PrefRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E902BF919F800E20408 /* PrefRepo.swift */; };
 		07F37E952BF919F800E20408 /* PrefRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E912BF919F800E20408 /* PrefRepoImp.swift */; };
 		07F37E972BF91A8000E20408 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F37E962BF91A8000E20408 /* Main.swift */; };
-		DC33C9992DEB644200E9B24F /* BaseRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33C9972DEB644200E9B24F /* BaseRepoImp.swift */; };
-		DC33C99A2DEB644200E9B24F /* ConverterUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33C9982DEB644200E9B24F /* ConverterUI.swift */; };
 		DC33C99C2DEB645C00E9B24F /* SecureConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33C99B2DEB645C00E9B24F /* SecureConst.swift */; };
+		DCBCA1072EAA63AE00380929 /* CouchbaseLiteSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DCBCA1062EAA63AE00380929 /* CouchbaseLiteSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,11 +59,8 @@
 		07F37E3A2BF915B700E20408 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07F37E3C2BF915CC00E20408 /* AppModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModule.swift; sourceTree = "<group>"; };
 		07F37E3D2BF915CC00E20408 /* AppObserve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppObserve.swift; sourceTree = "<group>"; };
-		07F37E512BF917D000E20408 /* RealmSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSync.swift; sourceTree = "<group>"; };
-		07F37E522BF917D000E20408 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
-		07F37E532BF917D000E20408 /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
+		07F37E532BF917D000E20408 /* Local.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Local.swift; sourceTree = "<group>"; };
 		07F37E5B2BF9194400E20408 /* Preference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preference.swift; sourceTree = "<group>"; };
-		07F37E5C2BF9194500E20408 /* ResultRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultRealm.swift; sourceTree = "<group>"; };
 		07F37E5F2BF9197A00E20408 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		07F37E602BF9197A00E20408 /* Const.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		07F37E612BF9197A00E20408 /* Tasker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasker.swift; sourceTree = "<group>"; };
@@ -81,7 +71,6 @@
 		07F37E692BF9197A00E20408 /* BottomBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBarItem.swift; sourceTree = "<group>"; };
 		07F37E6A2BF9197A00E20408 /* BottomBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBarItemView.swift; sourceTree = "<group>"; };
 		07F37E6C2BF9197A00E20408 /* BackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
-		07F37E6D2BF9197A00E20408 /* BottomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
 		07F37E6E2BF9197A00E20408 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		07F37E6F2BF9197A00E20408 /* NavigationDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawer.swift; sourceTree = "<group>"; };
 		07F37E702BF9197A00E20408 /* OutlinedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlinedTextField.swift; sourceTree = "<group>"; };
@@ -90,13 +79,10 @@
 		07F37E732BF9197A00E20408 /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		07F37E752BF9197A00E20408 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		07F37E762BF9197A00E20408 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		07F37E772BF9197A00E20408 /* Web.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Web.swift; sourceTree = "<group>"; };
 		07F37E8F2BF919F800E20408 /* PreferenceBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceBase.swift; sourceTree = "<group>"; };
 		07F37E902BF919F800E20408 /* PrefRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefRepo.swift; sourceTree = "<group>"; };
 		07F37E912BF919F800E20408 /* PrefRepoImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefRepoImp.swift; sourceTree = "<group>"; };
 		07F37E962BF91A8000E20408 /* Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
-		DC33C9972DEB644200E9B24F /* BaseRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepoImp.swift; sourceTree = "<group>"; };
-		DC33C9982DEB644200E9B24F /* ConverterUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterUI.swift; sourceTree = "<group>"; };
 		DC33C99B2DEB645C00E9B24F /* SecureConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureConst.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,7 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07F37E472BF9162800E20408 /* RealmSwift in Frameworks */,
+				DCBCA1072EAA63AE00380929 /* CouchbaseLiteSwift in Frameworks */,
 				07F37E4A2BF9165B00E20408 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				07F37E5B2BF9194400E20408 /* Preference.swift */,
-				07F37E5C2BF9194500E20408 /* ResultRealm.swift */,
 				070ADA212C89A754004A2B60 /* User.swift */,
 			);
 			path = model;
@@ -188,11 +173,7 @@
 		07F37E4F2BF9176700E20408 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				07F37E522BF917D000E20408 /* Converter.swift */,
-				07F37E532BF917D000E20408 /* Realm.swift */,
-				07F37E512BF917D000E20408 /* RealmSync.swift */,
-				DC33C9972DEB644200E9B24F /* BaseRepoImp.swift */,
-				DC33C9982DEB644200E9B24F /* ConverterUI.swift */,
+				07F37E532BF917D000E20408 /* Local.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -208,8 +189,8 @@
 		07F37E642BF9197A00E20408 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				07F37E5F2BF9197A00E20408 /* Color.swift */,
 				07F37E602BF9197A00E20408 /* Const.swift */,
+				07F37E5F2BF9197A00E20408 /* Color.swift */,
 				07F37E612BF9197A00E20408 /* Tasker.swift */,
 				07F37E632BF9197A00E20408 /* Theme.swift */,
 				DC33C99B2DEB645C00E9B24F /* SecureConst.swift */,
@@ -241,7 +222,6 @@
 			children = (
 				07F37E6B2BF9197A00E20408 /* bottomBar */,
 				07F37E6C2BF9197A00E20408 /* BackButton.swift */,
-				07F37E6D2BF9197A00E20408 /* BottomSheet.swift */,
 				07F37E6E2BF9197A00E20408 /* Image.swift */,
 				07F37E6F2BF9197A00E20408 /* NavigationDrawer.swift */,
 				07F37E702BF9197A00E20408 /* OutlinedTextField.swift */,
@@ -257,7 +237,6 @@
 			children = (
 				07F37E752BF9197A00E20408 /* Media.swift */,
 				07F37E762BF9197A00E20408 /* Utils.swift */,
-				07F37E772BF9197A00E20408 /* Web.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -300,8 +279,8 @@
 			);
 			name = "IOS-SwiftUI-Template";
 			packageProductDependencies = (
-				07F37E462BF9162800E20408 /* RealmSwift */,
 				07F37E492BF9165B00E20408 /* Swinject */,
+				DCBCA1062EAA63AE00380929 /* CouchbaseLiteSwift */,
 			);
 			productName = "IOS-SwiftUI-Template";
 			productReference = 07F37E222BF9141C00E20408 /* IOS-SwiftUI-Template.app */;
@@ -332,8 +311,8 @@
 			);
 			mainGroup = 07F37E192BF9141C00E20408;
 			packageReferences = (
-				07F37E432BF9162800E20408 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				07F37E482BF9165B00E20408 /* XCRemoteSwiftPackageReference "Swinject" */,
+				DCBCA1052EAA63AE00380929 /* XCRemoteSwiftPackageReference "couchbase-lite-ios" */,
 			);
 			productRefGroup = 07F37E232BF9141C00E20408 /* Products */;
 			projectDirPath = "";
@@ -372,8 +351,6 @@
 				07F37E3B2BF915B700E20408 /* AppDelegate.swift in Sources */,
 				07F37E8C2BF9197A00E20408 /* Media.swift in Sources */,
 				07F37E402BF915CC00E20408 /* AppModule.swift in Sources */,
-				07F37E552BF917D100E20408 /* Converter.swift in Sources */,
-				07F37E5E2BF9194500E20408 /* ResultRealm.swift in Sources */,
 				07F37E842BF9197A00E20408 /* BackButton.swift in Sources */,
 				07F37E872BF9197A00E20408 /* NavigationDrawer.swift in Sources */,
 				07F37E972BF91A8000E20408 /* Main.swift in Sources */,
@@ -382,22 +359,17 @@
 				07F37E412BF915CC00E20408 /* AppObserve.swift in Sources */,
 				07F37E8B2BF9197A00E20408 /* Views.swift in Sources */,
 				070ADA222C89A754004A2B60 /* User.swift in Sources */,
-				07F37E852BF9197A00E20408 /* BottomSheet.swift in Sources */,
-				07F37E542BF917D000E20408 /* RealmSync.swift in Sources */,
 				07F37E812BF9197A00E20408 /* BottomBar.swift in Sources */,
 				07F37E7E2BF9197A00E20408 /* Theme.swift in Sources */,
 				07F37E932BF919F800E20408 /* PreferenceBase.swift in Sources */,
 				07F37E822BF9197A00E20408 /* BottomBarItem.swift in Sources */,
 				07F37E7A2BF9197A00E20408 /* Color.swift in Sources */,
-				07F37E8E2BF9197A00E20408 /* Web.swift in Sources */,
 				07F37E862BF9197A00E20408 /* Image.swift in Sources */,
 				07F37E892BF9197A00E20408 /* StatusBar.swift in Sources */,
 				07F37E262BF9141C00E20408 /* IOS_SwiftUI_TemplateApp.swift in Sources */,
 				07F37E5D2BF9194500E20408 /* Preference.swift in Sources */,
 				07F37E8D2BF9197A00E20408 /* Utils.swift in Sources */,
-				DC33C9992DEB644200E9B24F /* BaseRepoImp.swift in Sources */,
-				DC33C99A2DEB644200E9B24F /* ConverterUI.swift in Sources */,
-				07F37E562BF917D100E20408 /* Realm.swift in Sources */,
+				07F37E562BF917D100E20408 /* Local.swift in Sources */,
 				07F37E952BF919F800E20408 /* PrefRepoImp.swift in Sources */,
 				07F37E7B2BF9197A00E20408 /* Const.swift in Sources */,
 				07F37E832BF9197A00E20408 /* BottomBarItemView.swift in Sources */,
@@ -538,6 +510,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"IOS-SwiftUI-Template/Preview Content\"";
+				DEVELOPMENT_TEAM = 85F49QNXT3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -563,7 +536,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -579,6 +552,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"IOS-SwiftUI-Template/Preview Content\"";
+				DEVELOPMENT_TEAM = 85F49QNXT3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -604,7 +578,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -633,14 +607,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		07F37E432BF9162800E20408 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		07F37E482BF9165B00E20408 /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject";
@@ -649,18 +615,26 @@
 				minimumVersion = 2.8.8;
 			};
 		};
+		DCBCA1052EAA63AE00380929 /* XCRemoteSwiftPackageReference "couchbase-lite-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/couchbase/couchbase-lite-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		07F37E462BF9162800E20408 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 07F37E432BF9162800E20408 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
 		07F37E492BF9165B00E20408 /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 07F37E482BF9165B00E20408 /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		DCBCA1062EAA63AE00380929 /* CouchbaseLiteSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCBCA1052EAA63AE00380929 /* XCRemoteSwiftPackageReference "couchbase-lite-ios" */;
+			productName = CouchbaseLiteSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,28 +1,21 @@
 import Foundation
-import RealmSwift
 import SwiftUI
 import Swinject
 
-//https://github.com/realm/realm-swift
+// https://github.com/couchbase/couchbase-lite-ios.git
 //https://github.com/Swinject/Swinject
 
-struct Project : ScopeFunc {
-    let realmApi: RealmApi
+struct Project : Sendable {
     let pref: PreferenceBase
 }
 
 func buildContainer() -> Container {
     let container = Container()
     
-    let realmApi = RealmApi(realmApp: App(id: REALM_APP_ID))
     let pro = Project(
-        realmApi: realmApi,
-        pref: PreferenceBase(repository: PrefRepoImp(realmApi: realmApi))
+        pref: PreferenceBase(repository: PrefRepoImp(db: try? CouchbaseLocal()))
     )
     let theme = Theme(isDarkMode: UITraitCollection.current.userInterfaceStyle.isDarkMode)
-    container.register(RealmApi.self) { _  in
-        return realmApi
-    }.inObjectScope(.container)
     container.register(Project.self) { _  in
         return pro
     }.inObjectScope(.container)
@@ -34,24 +27,28 @@ func buildContainer() -> Container {
 
 
 class Resolver {
+
+    @MainActor
     static let shared = Resolver()
     
     //get the IOC container
     private var container = buildContainer()
     
+    @MainActor
     func resolve<T>(_ type: T.Type) -> T {
         container.resolve(T.self)!
     }
 }
 
+
 @propertyWrapper
 struct Inject<I> {
     let wrappedValue: I
+    @MainActor
     init() {
         self.wrappedValue = Resolver.shared.resolve(I.self)
     }
 }
-
 
 
 

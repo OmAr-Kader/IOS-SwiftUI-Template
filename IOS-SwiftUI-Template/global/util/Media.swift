@@ -4,7 +4,7 @@ import PhotosUI
 
 func getURL(
     item: PhotosPickerItem,
-    completionHandler: @escaping (_ result: Result<URL, Error>) -> Void
+    completionHandler: @escaping @Sendable (_ result: Result<URL, Error>) -> Void
 ) {
     // Step 1: Load as Data object.
     item.loadTransferable(type: Data.self) { result in
@@ -28,6 +28,30 @@ func getURL(
         }
     }
 }
+
+func forChangePhoto(_ image: @escaping @Sendable (URL) -> Void) -> ((PhotosPickerItem?) -> Void){
+    return { newIt in
+        logger(
+            "imageUri",
+            String(newIt == nil)
+        )
+        if (newIt != nil) {
+            getURL(item: newIt!) { result in
+                switch result {
+                case .success(let url):
+                    image(url)
+                    logger("imageUri", url.absoluteString)
+                case .failure(let failure):
+                    logger(
+                        "imagUri",
+                        failure.localizedDescription
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 /// from: https://www.hackingwithswift.com/books/ios-swiftui/writing-data-to-the-documents-directory
 func getDocumentsDirectory() -> URL {

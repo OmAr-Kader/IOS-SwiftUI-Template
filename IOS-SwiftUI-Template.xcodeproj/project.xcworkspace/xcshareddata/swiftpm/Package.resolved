@@ -1,22 +1,13 @@
 {
-  "originHash" : "d301f631376259bab9a2a8ff89f5d2419db9b3ffc801b762bda528e890094d4e",
+  "originHash" : "6afc0d9cc2e22ef1b15ebdc65e5e62a081f5d671f246974f62e81cfa0c0967da",
   "pins" : [
     {
-      "identity" : "realm-core",
+      "identity" : "couchbase-lite-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-core.git",
+      "location" : "https://github.com/couchbase/couchbase-lite-ios.git",
       "state" : {
-        "revision" : "9cf7ef4ad8e2f4c7a519c9a395ca3d253bb87aa8",
-        "version" : "14.6.2"
-      }
-    },
-    {
-      "identity" : "realm-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift",
-      "state" : {
-        "branch" : "master",
-        "revision" : "a478ed826130f1a2419dbe19a26bd3fd905258d1"
+        "revision" : "e57f1dc00c5ccdc6bd624b1303e4e281b32db7dd",
+        "version" : "3.3.0"
       }
     },
     {

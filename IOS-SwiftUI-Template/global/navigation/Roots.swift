@@ -5,19 +5,29 @@ extension View {
     @ViewBuilder func targetScreen(
         _ target: Screen,
         _ app: AppObserve,
-        navigateTo: @MainActor @escaping (Screen) -> Unit,
-        navigateToScreen: @MainActor @escaping (ScreenConfig, Screen) -> Unit,
-        navigateHome: @MainActor @escaping (Screen) -> Unit,
-        backPress: @MainActor @escaping () -> Unit,
-        screenConfig: @MainActor @escaping (Screen) -> (any ScreenConfig)?
+        navigator: Navigator
     ) -> some View {
         switch target {
         case .AUTH_SCREEN_ROUTE:
-            SplashScreen()
+            HomeScreen(app: app)
         case .HOME_SCREEN_ROUTE:
-            SplashScreen()
+            HomeScreen(app: app)
         }
     }
+}
+
+
+@MainActor
+protocol Navigator : Sendable {
+    
+    var navigateTo: @MainActor (Screen) -> Void { get }
+    
+    var navigateToScreen: @MainActor (ScreenConfig, Screen) -> Void { get }
+        
+    var backPress: @MainActor () -> Void { get }
+    
+    var screenConfig: @MainActor (Screen) -> (any ScreenConfig)? { get }
+
 }
 
 enum Screen : Hashable {

@@ -1,23 +1,25 @@
 import Combine
+import CouchbaseLiteSwift
 
-protocol PrefRepo {
-    
+protocol PrefRepo : Sendable {
+
     @BackgroundActor
-    func prefs(invoke: @BackgroundActor ([Preference]) async -> Unit) async
+    func prefs() async -> [Preference]
     
-    @BackgroundActor
-    func prefsRealTime(invoke: @BackgroundActor @escaping ([Preference]) -> Unit) async -> AnyCancellable?
+    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void) -> ListenerToken?
   
     @BackgroundActor
-    func updatePref(_ prefs: [Preference],_ invoke: @escaping (([Preference]?) async -> Unit)) async
-
+    func insertPref(_ pref: Preference) async -> Preference?
+    
     @BackgroundActor
-    func updatePref(
-        _ pref: Preference,
-        _ newValue: String,
-        _ invoke: @escaping (Preference?) async -> Unit
-    ) async
-
+    func insertPref(_ prefs: [Preference]) async -> [Preference]?
+    
+    @BackgroundActor
+    func updatePref(_ pref: Preference, newValue: String) async -> Preference?
+    
+    @BackgroundActor
+    func updatePref(_ prefs: [Preference]) async -> [Preference]
+    
     @BackgroundActor
     func deletePref(key: String) async -> Int
     

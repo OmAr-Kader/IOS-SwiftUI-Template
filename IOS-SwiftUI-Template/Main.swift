@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Main: View {
+struct Main: View, Navigator {
     
     /*@StateObject*/
     var app: AppObserve
@@ -45,12 +45,12 @@ struct Main: View {
     var body: some View {
         //let isSplash = app.state.homeScreen == Screen.SPLASH_SCREEN_ROUTE
         
-        let _ = print("Main rendered \(renderTrigger)") // MARK: HINT => Necessary To Re-render
+        let _ = print("Main rendered \(renderTrigger)") // MARK: HINT => Necessary To Re-render -> This just for fine, remove "renderTrigger" and add @StateObject for app
         NavigationStack(path: Binding(get: { app.navigationPath }, set: { it in app.updatenavigationPath(it)})) {
             targetScreen(
-                app.state.homeScreen, app, navigateTo: navigateTo, navigateToScreen: navigateToScreen, navigateHome: navigateHome, backPress: backPress, screenConfig: screenConfig
+                app.state.homeScreen, app, navigator: self
             ).navigationDestination(for: Screen.self) { route in
-                targetScreen(route, app, navigateTo: navigateTo, navigateToScreen: navigateToScreen, navigateHome: navigateHome, backPress: backPress, screenConfig: screenConfig)
+                targetScreen(route, app, navigator: self)
                     //.toolbar(.hidden, for: .navigationBar)
             }
         }.onReceive(app.objectWillChange) {
@@ -68,22 +68,16 @@ struct Main: View {
     }
 }
 
+
 struct SplashScreen : View {
-    
-    
+        
     private let theme = Theme(isDarkMode: UITraitCollection.current.userInterfaceStyle.isDarkMode)
     @State private var scale: Double = 1
     @State private var width: CGFloat = 50
 
     var body: some View {
         FullZStack {
-            Image(
-                uiImage: UIImage(
-                    named: "sociality"
-                )?.withTintColor(
-                    UIColor(theme.textColor)
-                ) ?? UIImage()
-            ).resizable()
+            ImageAsset(icon: "Swift", tint: theme.textColor)
                 .scaleEffect(scale)
                 .frame(width: width, height: width, alignment: .center)
                 .onAppear {
@@ -91,6 +85,27 @@ struct SplashScreen : View {
                         width = 150
                     }
                 }
+            Spacer().frame(height: 20)
+        }.background(theme.background)
+    }
+}
+
+struct HomeScreen : View {
+    
+    @StateObject var app: AppObserve
+
+    @Inject
+    private var theme: Theme
+
+    var body: some View {
+        FullZStack {
+            Text("From CouchBase lite").padding()
+            Button {
+                app.increaseCount()
+            } label: {
+                Text("Count : \(app.state.count)").foregroundStyle(.black)
+            }.padding().background(Capsule().fill(.blue))
+            Spacer().frame(height: 20)
         }.background(theme.background)
     }
 }

@@ -23,10 +23,15 @@ struct IOS_SwiftUI_TemplateApp: App {
                     SplashScreen().task {
                         let _ = await Task { @MainActor in
                             delegate.app.findUserBase { it in
-                                if !isInjected {
-                                    withAnimation {
-                                        delegate.app.navigateHomeNoAnimation(it != nil ? .HOME_SCREEN_ROUTE : .AUTH_SCREEN_ROUTE)
-                                        isInjected.toggle()
+                                Task { @BackgroundActor in
+                                    await Task.sleep(sec: 0.7)
+                                    Task { @MainActor in
+                                        if !isInjected {
+                                            withAnimation {
+                                                delegate.app.navigateHomeNoAnimation(it != nil ? .HOME_SCREEN_ROUTE : .AUTH_SCREEN_ROUTE)
+                                                isInjected.toggle()
+                                            }
+                                        }
                                     }
                                 }
                             }
