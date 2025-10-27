@@ -258,6 +258,13 @@ public extension Task where Success == Never, Failure == Never {
     nonisolated static var instance: BackgroundActor {
         return shared
     }
+    
+    public nonisolated let queue = DispatchQueue(
+        label: "BackgroundActorQueue",
+        qos: .userInitiated,
+        attributes: [],
+        autoreleaseFrequency: .workItem
+    )
 }
 
 

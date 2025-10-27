@@ -35,13 +35,17 @@ class AppObserve : BaseObserve, Sendable {
         var project: Project
         super.init(project: project)
         prefsTask?.cancel()
-        sinkPrefs?.remove()
         prefsTask = tasker.back {
-            self.sinkPrefs = self.project.pref.prefs { list in
+            self.sinkPrefs?.remove()
+            self.project.pref.prefs { list in
                 self.tasker.mainSync {
                     self.preferences = list
                     self.initialCount()
                 }
+            } fetchToken: { token in
+                self.sinkPrefs = token
+            } onFailed: { _ in
+                
             }
         }
     }
@@ -256,8 +260,8 @@ class AppObserve : BaseObserve, Sendable {
     
     deinit {
         prefsTask?.cancel()
-        sinkPrefs?.remove()
-        sinkPrefs = nil
+        //sinkPrefs?.remove()
+        //sinkPrefs = nil
         prefsTask = nil
         tasker.deInit()
     }

@@ -2,7 +2,7 @@ import Combine
 import CouchbaseLiteSwift
 
 final class PreferenceBase : Sendable {
-
+    
     let repository: PrefRepo
     
     public init(repository: PrefRepo) {
@@ -14,8 +14,9 @@ final class PreferenceBase : Sendable {
         await repository.prefs()
     }
     
-    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void) -> ListenerToken? {
-        return repository.prefs(invoke: invoke)
+    @BackgroundActor
+    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void, fetchToken: @escaping @Sendable @BackgroundActor (ListenerToken?) -> Void, onFailed: @escaping @Sendable @BackgroundActor (String) -> Void) {
+        return repository.prefs(invoke: invoke, fetchToken: fetchToken, onFailed: onFailed)
     }
   
     @BackgroundActor
@@ -29,7 +30,7 @@ final class PreferenceBase : Sendable {
     }
     
     @BackgroundActor
-    func updatePref(_ pref: Preference, newValue: String) async -> Preference? {
+    func updatePref(_ pref: Preference, newValue: String) async -> Preference {
         return await repository.updatePref(pref, newValue: newValue)
     }
     

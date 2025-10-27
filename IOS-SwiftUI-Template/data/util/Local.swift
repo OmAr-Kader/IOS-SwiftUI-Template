@@ -1,38 +1,49 @@
 import Foundation
 import CouchbaseLiteSwift
 
-struct CouchbaseLocal : Sendable {
+actor CouchbaseLocal : Sendable {
     
-    nonisolated let database: Database
+    @BackgroundActor
+    var database: Database?
     
-    nonisolated var collectionPref: Collection {
+    
+    @BackgroundActor
+    var collectionPreferences: Collection {
         get throws {
-            if let collection = try database.collection(name: "preferences") {
+            if let collection = try database!.collection(name: "preferences") {
                 return collection
             } else {
-                return try database.createCollection(name: "preferences")
+                return try database!.createCollection(name: "preferences")
             }
         }
     }
     
     init() throws {
-        Database.log.file.level = .warning
-        Database.log.console.level = .warning
-        let config = DatabaseConfiguration()
-        database = try Database(name: "app_db", config: config)
-        
-        // Create index
-        if let collection = try? collectionPref {
-            let index = ValueIndexConfiguration([Preference.CodingKeys.keyString.rawValue])
-            try collection.createIndex(withName: "idx_preferences_key", config: index)
+        Task { @BackgroundActor in
+            let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("CBLLogs").path()
+            let fileConfig = LogFileConfiguration(directory: directory)
+            fileConfig.maxRotateCount = 5          // Number of log files to keep
+            fileConfig.maxSize = 1024 * 1024       // 1 MB per log file
+            fileConfig.usePlainText = false        // Keep as binary for performance
+
+            Database.log.file.config = fileConfig
+            Database.log.file.level = .warning        // or .debug for development
+            Database.log.console.level = .warning  // Limit console noise
+
+            
+            let config = DatabaseConfiguration()
+            self.database = try Database(name: "app_db", config: config)
+            
+            
+            // Create index
+            if let collection = try? collectionPreferences {
+                let index = ValueIndexConfiguration([Preference.CodingKeys.keyString.rawValue])
+                try collection.createIndex(withName: "idx_preferences_key", config: index)
+            }
         }
     }
+    
 }
 
-// Will Be Solve Soon
-extension Collection : @unchecked @retroactive Sendable {}
-extension Query : @unchecked @retroactive Sendable {}
-extension Database : @retroactive @unchecked Sendable { }
-extension CouchbaseLiteSwift.ResultSet : @retroactive @unchecked Sendable { }
-extension CouchbaseLiteSwift.QueryChange : @retroactive @unchecked Sendable { }
+// Just For remove the warring, it safe
 extension ListenerToken : @retroactive @unchecked Sendable { }

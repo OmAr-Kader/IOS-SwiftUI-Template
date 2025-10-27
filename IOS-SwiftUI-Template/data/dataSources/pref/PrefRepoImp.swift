@@ -2,7 +2,7 @@ import Foundation
 import CouchbaseLiteSwift
 
 final class PrefRepoImp : PrefRepo, Sendable {
-
+    
     private let db: CouchbaseLocal?
     
     init(db: CouchbaseLocal?) {
@@ -12,7 +12,7 @@ final class PrefRepoImp : PrefRepo, Sendable {
     @BackgroundActor
     func prefs() async -> [Preference] {
         do {
-            guard let collection = try? db?.collectionPref else {
+            guard let collection = try? db?.collectionPreferences else {
                 return []
             }
             
@@ -41,50 +41,62 @@ final class PrefRepoImp : PrefRepo, Sendable {
         }
     }
     
-    nonisolated func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void) -> ListenerToken? {
-        guard let collection = try? db?.collectionPref else {
-            return nil
+    @BackgroundActor
+    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void, fetchToken: @escaping @Sendable @BackgroundActor (ListenerToken?) -> Void, onFailed: @escaping @Sendable @BackgroundActor (String) -> Void) {
+        guard let collection = try? db?.collectionPreferences else {
+            onFailed("Can't find the database collection")
+            return
         }
         
-        let query = QueryBuilder
-            .select(
-                SelectResult.expression(Meta.id).as(Preference.CodingKeys.id.rawValue),
-                SelectResult.all()
-            )
-            .from(DataSource.collection(collection))
-        
-        let token = query.addChangeListener(withQueue: DispatchQueue.global()) { change in
-            Task { @BackgroundActor in
-                do {
-                    guard let results = change.results else {
-                        invoke([])
+        Task.detached {
+            let query = QueryBuilder
+                .select(
+                    SelectResult.expression(Meta.id).as(Preference.CodingKeys.id.rawValue),
+                    SelectResult.all()
+                )
+                .from(DataSource.collection(collection))
+            
+            let token = query.addChangeListener(withQueue: BackgroundActor.shared.queue) { change in
+                guard let results = change.results else {
+                    TaskBackSwitcher { invoke([]) }
+                    return
+                }
+                
+                var ids: [String] = []
+                for result in results {
+                    if let id = result.string(forKey: Preference.CodingKeys.id.rawValue) {
+                        ids.append(id)
+                    }
+                }
+                
+                TaskBackSwitcher { [weak self] in
+                    guard let coll = try? self?.db?.collectionPreferences else {
+                        onFailed("Can't find the database collection")
                         return
                     }
-                    
-                    var preferences: [Preference] = []
-                    for result in results {
-                        guard let id = result.string(forKey: Preference.CodingKeys.id.rawValue),
-                              let document = try collection.document(id: id) else {
-                            continue
+                    do {
+                        var preferences: [Preference] = []
+                        for id in ids {
+                            guard let document = try coll.document(id: id) else { continue }
+                            preferences.append(Preference.fromDocument(document))
                         }
-                        preferences.append(Preference.fromDocument(document))
+                        invoke(preferences)
+                    } catch {
+                        print("Error in prefs listener: \(error)")
+                        invoke([])
                     }
-                    
-                    invoke(preferences)
-                } catch {
-                    print("Error in prefs listener: \(error)")
-                    invoke([])
                 }
             }
-            
+            TaskBackSwitcher {
+                fetchToken(token)
+            }
         }
-        return token
     }
     
     @BackgroundActor
     func insertPref(_ pref: Preference) async -> Preference? {
         do {
-            guard let collection = try? db?.collectionPref else {
+            guard let collection = try? db?.collectionPreferences else {
                 return nil
             }
             
@@ -99,11 +111,11 @@ final class PrefRepoImp : PrefRepo, Sendable {
     @BackgroundActor
     func insertPref(_ prefs: [Preference]) async -> [Preference]? {
         do {
-            guard let collection = try? db?.collectionPref else {
+            guard let collection = try? db?.collectionPreferences else {
                 return nil
             }
             
-            try db?.database.inBatch {
+            try db?.database?.inBatch {
                 for pref in prefs {
                     try collection.save(document: pref.toDocument())
                 }
@@ -117,10 +129,10 @@ final class PrefRepoImp : PrefRepo, Sendable {
     }
     
     @BackgroundActor
-    func updatePref(_ pref: Preference, newValue: String) async -> Preference? {
+    func updatePref(_ pref: Preference, newValue: String) async -> Preference {
         do {
-            guard let collection = try? db?.collectionPref else {
-                return nil
+            guard let collection = try? db?.collectionPreferences else {
+                return pref
             }
             
             // 1️⃣ Query document by keyString
@@ -147,18 +159,18 @@ final class PrefRepoImp : PrefRepo, Sendable {
             }
         } catch {
             print("Error updating pref: \(error)")
-            return nil
+            return pref
         }
     }
     
     @BackgroundActor
     func updatePref(_ prefs: [Preference]) async -> [Preference] {
         do {
-            guard let collection = try? db?.collectionPref else {
+            guard let collection = try? db?.collectionPreferences else {
                 return prefs
             }
             
-            try db?.database.inBatch {
+            try db?.database?.inBatch {
                 for pref in prefs {
                     let query = QueryBuilder
                         .select(SelectResult.expression(Meta.id))
@@ -191,7 +203,7 @@ final class PrefRepoImp : PrefRepo, Sendable {
     @BackgroundActor
     func deletePref(key: String) async -> Int {
         do {
-            guard let collection = try? db?.collectionPref else {
+            guard let collection = try? db?.collectionPreferences else {
                 return Const.CLOUD_FAILED
             }
             
@@ -219,23 +231,28 @@ final class PrefRepoImp : PrefRepo, Sendable {
     @BackgroundActor
     func deletePrefAll() async -> Int {
         do {
-            guard let collection = try? db?.collectionPref else {
+            guard let collection = try? db?.collectionPreferences else {
                 return Const.CLOUD_FAILED
             }
             
-            let query = QueryBuilder
-                .select(SelectResult.expression(Meta.id))
-                .from(DataSource.collection(collection))
-            
-            try db?.database.inBatch {
-                Task { @BackgroundActor in
+            try db?.database?.inBatch {
+                Task { @BackgroundActor [weak self] in
+                    guard let coll = try? self?.db?.collectionPreferences else {
+                        return
+                    }
+                    
+                    let query = QueryBuilder
+                        .select(SelectResult.expression(Meta.id))
+                        .from(DataSource.collection(collection))
+                    
+                    
                     let results = try query.execute()
                     for result in results {
                         guard let id = result.string(forKey: Preference.CodingKeys.id.rawValue),
-                              let document = try collection.document(id: id) else {
+                              let document = try coll.document(id: id) else {
                             continue
                         }
-                        try collection.delete(document: document)
+                        try coll.delete(document: document)
                     }
                 }
             }

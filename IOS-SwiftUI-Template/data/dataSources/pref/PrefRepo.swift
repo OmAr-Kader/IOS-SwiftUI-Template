@@ -1,13 +1,14 @@
 import Combine
 import CouchbaseLiteSwift
 
-protocol PrefRepo : Sendable {
-
+internal protocol PrefRepo : Sendable {
+            
     @BackgroundActor
     func prefs() async -> [Preference]
     
-    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void) -> ListenerToken?
-  
+    @BackgroundActor
+    func prefs(invoke: @escaping @Sendable @BackgroundActor ([Preference]) -> Void, fetchToken: @escaping @Sendable @BackgroundActor (ListenerToken?) -> Void, onFailed: @escaping @Sendable @BackgroundActor (String) -> Void)
+
     @BackgroundActor
     func insertPref(_ pref: Preference) async -> Preference?
     
@@ -15,7 +16,7 @@ protocol PrefRepo : Sendable {
     func insertPref(_ prefs: [Preference]) async -> [Preference]?
     
     @BackgroundActor
-    func updatePref(_ pref: Preference, newValue: String) async -> Preference?
+    func updatePref(_ pref: Preference, newValue: String) async -> Preference
     
     @BackgroundActor
     func updatePref(_ prefs: [Preference]) async -> [Preference]
